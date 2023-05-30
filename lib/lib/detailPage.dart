@@ -4,141 +4,21 @@ import 'package:agile_weather_app/lib/dataset.dart';
 import 'package:agile_weather_app/lib/extraWeather.dart';
 
 class DetailPage extends StatelessWidget {
-  final Weather tomorrowTemp;
   final List<Weather> sevenDay;
-  DetailPage(this.tomorrowTemp,this.sevenDay);
+  DetailPage(this.sevenDay);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff030317),
       body: Column(
         children:
-        [TomorrowWeather(tomorrowTemp), SevenDays(sevenDay)],
+        [SevenDays(sevenDay)],
 
       ),
     );
   }
 }
 
-class TomorrowWeather extends StatelessWidget {
-  final Weather tomorrowTemp;
-  TomorrowWeather(this.tomorrowTemp);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xff00A1FF),
-      child: Column(
-        children: [
-          //SingleChildScrollView(),
-          Padding(
-
-            padding: EdgeInsets.only(top: 50, right: 30, left: 30, bottom: 20),
-            child: Row(
-
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [SingleChildScrollView(),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.white,
-                    )),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.calendar_today,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      "Forecast",
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                Icon(Icons.more_vert, color: Colors.white)
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [SingleChildScrollView(),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.3,
-                  height: MediaQuery.of(context).size.width / 2.3,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(tomorrowTemp.image))),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Tomorrow",
-                      style: TextStyle(fontSize: 30, height: 0.1),
-                    ),
-                    Container(
-
-                      height: 105,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [SingleChildScrollView(),
-                          GlowText(
-                            tomorrowTemp.max.toString(),
-                            style: TextStyle(
-                                fontSize: 100, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "/" + tomorrowTemp.min.toString() + "\u00B0",
-                            style: TextStyle(
-                                color: Colors.black54.withOpacity(0.3),
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      " " + tomorrowTemp.name,
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: 20,
-              right: 50,
-              left: 50,
-            ),
-            child: Column(
-              children: [
-                
-                Divider(color: Colors.white),
-                SizedBox(
-                  height: 10,
-                ),
-                ExtraWeather(tomorrowTemp)
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
 
 class SevenDays extends StatelessWidget {
   final List<Weather> sevenDay;
@@ -182,7 +62,7 @@ class SevenDays extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          "+" + sevenDay[index].min.toString() + "\u00B0",
+                          "-" + sevenDay[index].min.toString() + "\u00B0",
                           style: TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                       ],

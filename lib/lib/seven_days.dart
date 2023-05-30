@@ -27,7 +27,7 @@ class TodayWeather extends StatelessWidget {
     onTap: () {
     Navigator.push(context,
     MaterialPageRoute(builder: (BuildContext context) {
-    return DetailPage(tomorrowTemp,sevenDay);
+    return DetailPage(sevenDay);
     }));
     },
     child: Row(
