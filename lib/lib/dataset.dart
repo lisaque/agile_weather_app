@@ -43,7 +43,7 @@ Future<List> fetchData(String lat,String lon,String city) async{
     //current Temp
     var current = res["current"];
     Weather currentTemp = Weather(
-        current: current["temp"]?.round()??4,
+        current: current["temp"]?.round()??3,
         name: current["weather"][0]["main"].toString(),
         day: DateFormat("EEEE dd MMMM").format(date),
         wind: current["wind_speed"]?.round()??3,
@@ -59,7 +59,7 @@ Future<List> fetchData(String lat,String lon,String city) async{
     for(var i=0;i<4;i++){
       var temp = res["hourly"];
       var hourly = Weather(
-          current: temp[i]["temp"]?.round()??0,
+          current: temp[i]["temp"]?.round()??1,
           image: findIcon(temp[i]["weather"][0]["main"].toString(),false),
           time: Duration(hours: hour+i+1).toString().split(":")[0]+":00"
       );

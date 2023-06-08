@@ -5,22 +5,30 @@ import 'package:agile_weather_app/lib/dataset.dart';
 import 'package:agile_weather_app/lib/detailPage.dart';
 import 'package:agile_weather_app/lib/extraWeather.dart';
 import 'package:agile_weather_app/lib/seven_days.dart';
+import 'package:geolocator/geolocator.dart';
 
 
 Weather currentTemp;
 Weather tomorrowTemp;
 List<Weather> todayWeather;
 List<Weather> sevenDay;
-String lat = "52.5244";
-String lon = "13.4105";
+String lat = "52.52437";
+String lon = "13.41053";
 String city = "Berlin";
 
+
 class HomePage extends StatefulWidget {
-  @override
+  final String lat;
+  final String lon;
+  final String city;
+
+  const HomePage({Key key, this.lat, this.lon, this.city}) : super(key: key);
+
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
 
   getData() async{
     fetchData(lat, lon, city).then((value){
@@ -29,13 +37,13 @@ class _HomePageState extends State<HomePage> {
       tomorrowTemp = value[2];
       sevenDay = value[3];
       setState(() {
-        
+
       });
     });
   }
 
 @override
-void initState() { 
+void initState() {
   super.initState();
   getData();
 }
@@ -44,8 +52,12 @@ void initState() {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff030317),
-      body: currentTemp==null ? Center(child: CircularProgressIndicator(),):Column(
-        children: [CurrentWeather(getData)],
+      body: currentTemp==null ? Center(child: CircularProgressIndicator(),): Column(
+        children: [
+          Expanded(
+            child: CurrentWeather(getData),
+          ),
+        ],
       ),
     );
   }
@@ -60,47 +72,50 @@ class CurrentWeather extends StatefulWidget {
 
 class _CurrentWeatherState extends State<CurrentWeather> {
 
-bool searchBar = false;
-bool updating = false;
-var focusNode = FocusNode();
+  bool searchBar = false;
+  bool updating = false;
+  var focusNode = FocusNode();
+
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        if(searchBar)
-        setState(() {
-          searchBar = false;
-        });
+      onTap: () {
+        if (searchBar)
+          setState(() {
+            searchBar = false;
+          });
       },
       child: Container(
-        height: MediaQuery.of(context).size.height - 160,
         margin: EdgeInsets.all(2),
         padding: EdgeInsets.only(top: 50, left: 30, right: 30),
-        color: Color(0xff00A1FF),
-        child: Column(
+        color: Colors.lightBlue,
+          child: SingleChildScrollView(
+          child: Column(
           children: [
             Container(
-              child: searchBar?
+              child: searchBar ?
               TextField(
                 focusNode: focusNode,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                  fillColor: Color(0xff030317),
-                  filled: true,
-                  hintText:"Enter a city Name"
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    fillColor: Color(0xff030317),
+                    filled: true,
+                    hintText: "Enter a city Name"
                 ),
                 textInputAction: TextInputAction.search,
-                onSubmitted: (value)async{
+                onSubmitted: (value) async {
                   CityModel temp = await fetchCity(value);
-                  if(temp==null){
-                    showDialog(context: context, builder: (BuildContext context){
+                  if (temp == null) {
+                    showDialog(
+                        context: context, builder: (BuildContext context) {
                       return AlertDialog(
                         backgroundColor: Color(0xff030317),
-                        title:Text("City not found"),
+                        title: Text("City not found"),
                         content: Text("Please check the city name"),
                         actions: [
-                          TextButton(onPressed: (){
+                          TextButton(onPressed: () {
                             Navigator.of(context).pop();
                           }, child: Text("Ok"))
                         ],
@@ -114,17 +129,17 @@ var focusNode = FocusNode();
                   lon = temp.lon;
                   updating = true;
                   setState(() {
-                    
+
                   });
                   widget.updateData();
                   searchBar = false;
                   updating = false;
                   setState(() {
-                    
+
                   });
                 },
               )
-              :Row(
+                  : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(
@@ -135,16 +150,17 @@ var focusNode = FocusNode();
                     children: [
                       Icon(CupertinoIcons.map_fill, color: Colors.white),
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           searchBar = true;
                           setState(() {
-                            
+
                           });
                           focusNode.requestFocus();
                         },
                         child: Text(
                           " " + city,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                          style: TextStyle(fontWeight: FontWeight.bold,
+                              fontSize: 30),
                         ),
                       ),
                     ],
@@ -153,10 +169,10 @@ var focusNode = FocusNode();
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // Navigate to a new page when the icon is tapped
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => TodayWeather()),
+                            MaterialPageRoute(
+                                builder: (context) => DetailPage(sevenDay)),
                           );
                         },
                         child: Icon(
@@ -170,14 +186,14 @@ var focusNode = FocusNode();
               ),
             ),
 
-                      Container(
-                      margin: EdgeInsets.only(top: 10),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                      border: Border.all(width: 0.2, color: Colors.white),
-                      borderRadius: BorderRadius.circular(30)),
-                      child: Text(
-                      updating?"Updating":"Updated",
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 0.2, color: Colors.white),
+                  borderRadius: BorderRadius.circular(30)),
+              child: Text(
+                updating ? "Updating" : "Updated",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -191,27 +207,27 @@ var focusNode = FocusNode();
                     left: 0,
                     child: Center(
                         child: Column(
-                      children: [
-                        GlowText(
-                          currentTemp.current.toString(),
-                          style: TextStyle(
-                              height: 6,
-                              fontSize: 70,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(currentTemp.name,
-                            style: TextStyle(
-                              fontSize: 10,
-                              height: 5,
+                          children: [
+                            GlowText(
+                              currentTemp.current.toString(),
+                              style: TextStyle(
+                                  height: 2,
+                                  fontSize: 66,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(currentTemp.name,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  height: 5,
 
-                            )),
-                        Text(currentTemp.day,
-                            style: TextStyle(
-                              fontSize: 10,
-                              height: 8,
-                            ))
-                      ],
-                    )),
+                                )),
+                            Text(currentTemp.day,
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  height: 8,
+                                ))
+                          ],
+                        )),
                   )
                 ],
               ),
@@ -222,107 +238,43 @@ var focusNode = FocusNode();
             SizedBox(
               height: 10,
             ),
-            ExtraWeather(currentTemp)
+            ExtraWeather(currentTemp),
+            Divider(
+              color: Colors.white38,
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 14),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            WeatherWidget(todayWeather[0]),
+                            WeatherWidget(todayWeather[1]),
+                            WeatherWidget(todayWeather[2]),
+                            WeatherWidget(todayWeather[3]),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                ],
+              ),
+            ),
           ],
+
         ),
       ),
-    );
-  }
-}
-class TodayWeather extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 30, right: 30, top: 10),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Today",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                        return DetailPage(sevenDay);
-                      }));
-                },
-                child: Row(
-                  children: [
-                    Text(
-                      " Forecast",
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: Colors.black,
-                      size: 15,
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              bottom: 30,
-            ),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  WeatherWidget(todayWeather[0]),
-                  WeatherWidget(todayWeather[1]),
-                  WeatherWidget(todayWeather[2]),
-                  WeatherWidget(todayWeather[3])
-                ]),
-          )
-        ],
       ),
     );
   }
 }
-
-class WeatherWidget extends StatelessWidget {
-  final Weather weather;
-  WeatherWidget(this.weather);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-          border: Border.all(width: 0.2, color: Color(0xff00A1FF)),
-          borderRadius: BorderRadius.circular(35)),
-      child: Column(
-        children: [
-          Text(
-            weather.current.toString() + "\u00B0",
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Image(
-            image: AssetImage(weather.image),
-            width: 50,
-            height: 50,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            weather.time,
-            style: TextStyle(fontSize: 16, color: Colors.black),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-

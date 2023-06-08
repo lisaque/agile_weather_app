@@ -74,10 +74,10 @@ class TodayWeather extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
     return Container(
-    padding: EdgeInsets.all(15),
-    decoration: BoxDecoration(
-    border: Border.all(width: 0.2, color: Colors.white),
-    borderRadius: BorderRadius.circular(35)),
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+            border: Border.all(width: 0.2, color: Colors.white),
+            borderRadius: BorderRadius.circular(35)),
     child: Column(
     children: [
     Text(
