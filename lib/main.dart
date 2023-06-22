@@ -1,3 +1,4 @@
+import 'package:agile_weather_app/lib/homePageB.dart';
 import 'package:flutter/material.dart';
 import 'package:agile_weather_app/lib/homePage.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
               .textTheme
               .apply(bodyColor: Colors.white, displayColor: Colors.blue)),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: HomePageB(),
     );
   }
 }

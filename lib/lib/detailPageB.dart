@@ -1,13 +1,12 @@
-import 'package:agile_weather_app/lib/homePage.dart';
+import 'package:agile_weather_app/lib/homePageB.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_glow/flutter_glow.dart';
-import 'package:agile_weather_app/lib/dataset.dart';
+import 'package:agile_weather_app/lib/datasetB.dart';
 import 'package:agile_weather_app/lib/extraWeather.dart';
 
-class DetailPage extends StatelessWidget {
-  final List<Weather> sevenDay;
+class DetailPageB extends StatelessWidget {
+  final List<WeatherB> sevenDay;
 
-  DetailPage(this.sevenDay);
+  DetailPageB(this.sevenDay);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class DetailPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomePage()),
+                MaterialPageRoute(builder: (context) => HomePageB()),
               );
             },
             child: SevenDays(sevenDay),
@@ -46,7 +45,7 @@ class DetailPage extends StatelessWidget {
 }
 
 class SevenDays extends StatelessWidget {
-  final List<Weather> sevenDay;
+  final List<WeatherB> sevenDay;
 
   SevenDays(this.sevenDay);
 

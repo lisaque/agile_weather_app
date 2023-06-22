@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:agile_weather_app/lib/dataset.dart';
+import 'package:agile_weather_app/lib/datasetB.dart';
 
 
 class ExtraWeather extends StatelessWidget {
-  final Weather temp;
+  final WeatherB temp;
   ExtraWeather(this.temp);
 
   @override

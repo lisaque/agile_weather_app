@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Weather {
   final int max;
@@ -15,86 +16,99 @@ class Weather {
   final String time;
   final String location;
 
-  Weather(
-      {this.max,
-        this.min,
-        this.name,
-        this.day,
-        this.wind,
-        this.humidity,
-        this.chanceRain,
-        this.image,
-        this.current,
-        this.time,
-        this.location});
+  Weather({
+    this.max,
+    this.min,
+    this.name,
+    this.day,
+    this.wind,
+    this.humidity,
+    this.chanceRain,
+    this.image,
+    this.current,
+    this.time,
+    this.location,
+  });
 }
-//get appid from http://openweathermap.org
-String appId = "";
-//https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&units=metric&appid=$appId
-//https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/cities.json
 
+Future<List> fetchData({String city}) async {
+  Position position;
+  String lat, lon;
 
-Future<List> fetchData(String lat,String lon,String city) async{
-  var url = "https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&units=metric&appid=57ef44ab48d72208ac00792eb55b8cee";
-  var response = await http.get(Uri.parse(url));
-  DateTime date = DateTime.now();
-  if(response.statusCode==200){
-    var res = json.decode(response.body);
+  if (city == null) {
+    position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    lat = position.latitude.toString();
+    lon = position.longitude.toString();
+  } else {
+    final cityModel = await fetchCity(city);
+    if (cityModel != null) {
+      lat = cityModel.lat;
+      lon = cityModel.lon;
+    } else {
+      throw Exception('Failed to fetch data for $city');
+    }
+  }
+
+  final weatherResponse = await http.get(Uri.parse(
+      'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&units=metric&appid=57ef44ab48d72208ac00792eb55b8cee'));
+  if (weatherResponse.statusCode == 200) {
+    final res = jsonDecode(weatherResponse.body);
+    DateTime date = DateTime.now();
     //current Temp
     var current = res["current"];
     Weather currentTemp = Weather(
-        current: current["temp"]?.round()??3,
-        name: current["weather"][0]["main"].toString(),
-        day: DateFormat("EEEE dd MMMM").format(date),
-        wind: current["wind_speed"]?.round()??3,
-        humidity: current["humidity"]?.round()??3,
-        chanceRain: current["uvi"]?.round()??3,
-        location: city,
-        image: findIcon(current["weather"][0]["main"].toString(), true)
+      current: current["temp"]?.round() ?? 3,
+      name: current["weather"][0]["main"].toString(),
+      day: DateFormat("EEEE dd MMMM").format(date),
+      wind: current["wind_speed"]?.round() ?? 3,
+      humidity: current["humidity"]?.round() ?? 3,
+      chanceRain: current["uvi"]?.round() ?? 3,
+      location: city,
+      image: findIcon(current["weather"][0]["main"].toString(), true),
     );
 
     //today weather
     List<Weather> todayWeather = [];
     int hour = int.parse(DateFormat("hh").format(date));
-    for(var i=0;i<4;i++){
+    for (var i = 0; i < 4; i++) {
       var temp = res["hourly"];
       var hourly = Weather(
-          current: temp[i]["temp"]?.round()??1,
-          image: findIcon(temp[i]["weather"][0]["main"].toString(),false),
-          time: Duration(hours: hour+i+1).toString().split(":")[0]+":00"
-      );
+          current: temp[i]["temp"]?.round() ?? 1,
+          image: findIcon(temp[i]["weather"][0]["main"].toString(), false),
+          time: Duration(hours: hour + i + 1).toString().split(":")[0] + ":00");
       todayWeather.add(hourly);
     }
 
     //Tomorrow Weather
     var daily = res["daily"][0];
     Weather tomorrowTemp = Weather(
-        max: daily["temp"]["max"]?.round()??0,
-        min:daily["temp"]["min"]?.round()??0,
+        max: daily["temp"]["max"]?.round() ?? 0,
+        min: daily["temp"]["min"]?.round() ?? 0,
         image: findIcon(daily["weather"][0]["main"].toString(), true),
-        name:daily["weather"][0]["main"].toString(),
-        wind: daily["wind_speed"]?.round()??0,
-        humidity: daily["rain"]?.round()??0,
-        chanceRain: daily["uvi"]?.round()??0
-    );
+        name: daily["weather"][0]["main"].toString(),
+        wind: daily["wind_speed"]?.round() ?? 0,
+        humidity: daily["rain"]?.round() ?? 0,
+        chanceRain: daily["uvi"]?.round() ?? 0);
 
     //Seven Day Weather
     List<Weather> sevenDay = [];
-    for(var i=0;i<7;i++){
-      String day = DateFormat("EEEE").format(DateTime(date.year,date.month,date.day+i+1)).substring(0,3);
+    for (var i = 0; i < 7; i++) {
+      String day =
+      DateFormat("EEEE").format(DateTime(date.year, date.month, date.day + i + 1)).substring(0, 3);
       var temp = res["daily"][i];
       var hourly = Weather(
-          max:temp["temp"]["max"]?.round()??5,
-          min:temp["temp"]["min"]?.round()??5,
-          image:findIcon(temp["weather"][0]["main"].toString(), false),
-          name:temp["weather"][0]["main"].toString(),
-          day: day
-      );
+          max: temp["temp"]["max"]?.round() ?? 5,
+          min: temp["temp"]["min"]?.round() ?? 5,
+          image: findIcon(temp["weather"][0]["main"].toString(), false),
+          name: temp["weather"][0]["main"].toString(),
+          day: day);
       sevenDay.add(hourly);
     }
-    return [currentTemp,todayWeather,tomorrowTemp,sevenDay];
+    return [currentTemp, todayWeather, tomorrowTemp, sevenDay];
   }
-  return [null,null,null,null];
+  return [null, null, null, null];
 }
 
 //findIcon
@@ -151,21 +165,22 @@ class CityModel{
 
 var cityJSON;
 
-Future<CityModel> fetchCity(String cityName) async{
-  if(cityJSON==null){
-    String link = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/cities.json";
+Future<CityModel> fetchCity(String cityName) async {
+  if (cityJSON == null) {
+    String link =
+        "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/cities.json";
     var response = await http.get(Uri.parse(link));
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       cityJSON = json.decode(response.body);
     }
   }
-  for(var i=0;i<cityJSON.length;i++){
-    if(cityJSON[i]["name"].toString().toLowerCase() == cityName.toLowerCase()){
+  for (var i = 0; i < cityJSON.length; i++) {
+    if (cityJSON[i]["name"].toString().toLowerCase() ==
+        cityName.toLowerCase()) {
       return CityModel(
-          name:cityJSON[i]["name"].toString(),
+          name: cityJSON[i]["name"].toString(),
           lat: cityJSON[i]["latitude"].toString(),
-          lon: cityJSON[i]["longitude"].toString()
-      );
+          lon: cityJSON[i]["longitude"].toString());
     }
   }
   return null;
