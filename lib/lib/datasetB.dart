@@ -31,8 +31,7 @@ class WeatherB {
         this.city});
 }
 
-//get appid from http://openweathermap.org
-String appId = "";
+//from http://openweathermap.org
 //https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&units=metric&appid=$appId
 //https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/cities.json
 
