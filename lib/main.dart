@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Weather',
+      title: 'Boss Weather',
       theme: ThemeData(
           textTheme: Theme.of(context)
               .textTheme

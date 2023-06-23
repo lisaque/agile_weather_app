@@ -145,7 +145,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
       child: Container(
         margin: EdgeInsets.all(2),
         padding: EdgeInsets.only(top: 50, left: 30, right: 30),
-        color: Colors.lightBlue,
+        color: Colors.indigoAccent,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -267,24 +267,29 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(height: 14),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              WeatherWidget(todayWeather[0]),
-                              WeatherWidget(todayWeather[1]),
-                              WeatherWidget(todayWeather[2]),
-                              WeatherWidget(todayWeather[3]),
-                            ],
+                        Flexible(
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 30),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  WeatherWidget(todayWeather[0]),
+                                  WeatherWidget(todayWeather[1]),
+                                  WeatherWidget(todayWeather[2]),
+                                  WeatherWidget(todayWeather[3]),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ],
                 ),
-              ),
+              )
             ],
           ),
         ),

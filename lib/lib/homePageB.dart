@@ -88,7 +88,7 @@ class _CurrentWeatherStateB extends State<CurrentWeatherB> {
         child: Container(
         margin: EdgeInsets.all(2),
     padding: EdgeInsets.only(top: 50, left: 30, right: 30),
-    color: Colors.lightBlue,
+    color: Colors.indigoAccent,
     child: SingleChildScrollView(
     child: Column(
     children: [
@@ -267,25 +267,29 @@ class _CurrentWeatherStateB extends State<CurrentWeatherB> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 14),
-                Container(
-                  margin: EdgeInsets.only(bottom: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      WeatherWidgetB(todayWeather[0]),
-                      WeatherWidgetB(todayWeather[1]),
-                      WeatherWidgetB(todayWeather[2]),
-                      WeatherWidgetB(todayWeather[3]),
-                    ],
+                Flexible(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 30),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          WeatherWidgetB(todayWeather[0]),
+                          WeatherWidgetB(todayWeather[1]),
+                          WeatherWidgetB(todayWeather[2]),
+                          WeatherWidgetB(todayWeather[3]),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
-
           ],
         ),
-      ),
+      )
     ],
 
     ),

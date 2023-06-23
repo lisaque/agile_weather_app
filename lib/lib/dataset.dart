@@ -75,9 +75,10 @@ Future<List> fetchData({String city}) async {
     for (var i = 0; i < 4; i++) {
       var temp = res["hourly"];
       var hourly = Weather(
-          current: temp[i]["temp"]?.round() ?? 1,
-          image: findIcon(temp[i]["weather"][0]["main"].toString(), false),
-          time: Duration(hours: hour + i + 1).toString().split(":")[0] + ":00");
+        current: temp[i]["temp"]?.round() ?? 3,
+        image: findIcon(temp[i]["weather"][0]["main"].toString(), false),
+        time: DateFormat("hh:00 a").format(date.add(Duration(hours: hour + i + 1))),
+      );
       todayWeather.add(hourly);
     }
 

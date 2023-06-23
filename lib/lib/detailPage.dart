@@ -59,7 +59,7 @@ class SevenDays extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.only(left: 20, right: 20, bottom: 25),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SingleChildScrollView(),
                 Text(sevenDay[index].day, style: TextStyle(fontSize: 20)),
