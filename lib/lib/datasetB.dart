@@ -31,7 +31,8 @@ class WeatherB {
         this.city});
 }
 
-//from http://openweathermap.org
+//get appid from http://openweathermap.org
+String appId = "";
 //https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&units=metric&appid=$appId
 //https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/cities.json
 
@@ -58,17 +59,16 @@ Future<List> fetchDataB(String lat,String lon,String city) async{
 
     //today weather
     List<WeatherB> todayWeatherB = [];
-    int hour = int.parse(DateFormat("hh").format(date));
-    for (var i = 0; i < 4; i++) {
+    int hour = int.parse(DateFormat("HH").format(date));
+    for(var i=0;i<4;i++){
       var temp = res["hourly"];
       var hourly = WeatherB(
-        current: temp[i]["temp"]?.round() ?? 3,
-        image: findIconB(temp[i]["weather"][0]["main"].toString(), false),
-        time: DateFormat("hh:00 a").format(date.add(Duration(hours: hour + i + 1))),
+          current: temp[i]["temp"]?.round()??1,
+          image: findIconB(temp[i]["weather"][0]["main"].toString(),false),
+          time: Duration(hours: hour + i + 1).toString().split(":")[0] + ":00"
       );
       todayWeatherB.add(hourly);
     }
-
 
     //Tomorrow Weather
     var daily = res["daily"][0];

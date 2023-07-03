@@ -1,4 +1,5 @@
 import 'package:agile_weather_app/lib/datasetB.dart';
+import 'package:agile_weather_app/lib/help_page.dart';
 import 'package:agile_weather_app/lib/homePageB.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:agile_weather_app/lib/detailPage.dart';
 import 'package:agile_weather_app/lib/extraWeather.dart';
 import 'package:agile_weather_app/lib/seven_days.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Weather currentTemp;
 Weather tomorrowTemp;
@@ -99,7 +101,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     getData();
   }
-
+//Loading Screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -258,6 +260,25 @@ class _CurrentWeatherState extends State<CurrentWeather> {
               ExtraWeather(currentTemp),
               Divider(
                 color: Colors.white38,
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 30, left: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Help()),
+                      );
+                    },
+                    child: Icon(
+                      Icons.help_outline,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 30, right: 30, top: 10),

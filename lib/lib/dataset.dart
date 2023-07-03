@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 
+//initialized variables, using "final", because they are unknown entities and must be changed
 class Weather {
   final int max;
   final int min;
@@ -40,7 +41,7 @@ Future<List> fetchData({String city}) async {
       desiredAccuracy: LocationAccuracy.high,
     );
     lat = position.latitude.toString();
-    lon = position.longitude.toString();
+    lon = position.longitude .toString();
   } else {
     final cityModel = await fetchCity(city);
     if (cityModel != null) {
@@ -50,12 +51,14 @@ Future<List> fetchData({String city}) async {
       throw Exception('Failed to fetch data for $city');
     }
   }
-
+//this part calls the API using the URL
   final weatherResponse = await http.get(Uri.parse(
       'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&units=metric&appid=57ef44ab48d72208ac00792eb55b8cee'));
   if (weatherResponse.statusCode == 200) {
+    //there the API data is decoded with JSON to convert the API into string, in our code
     final res = jsonDecode(weatherResponse.body);
     DateTime date = DateTime.now();
+
     //current Temp
     var current = res["current"];
     Weather currentTemp = Weather(
@@ -69,15 +72,15 @@ Future<List> fetchData({String city}) async {
       image: findIcon(current["weather"][0]["main"].toString(), true),
     );
 
-    //today weather
+    //today weather forecast
     List<Weather> todayWeather = [];
-    int hour = int.parse(DateFormat("hh").format(date));
-    for (var i = 0; i < 4; i++) {
+    int hour = int.parse(DateFormat("HH").format(date));
+    for(var i=0;i<4;i++){
       var temp = res["hourly"];
       var hourly = Weather(
-        current: temp[i]["temp"]?.round() ?? 3,
-        image: findIcon(temp[i]["weather"][0]["main"].toString(), false),
-        time: DateFormat("hh:00 a").format(date.add(Duration(hours: hour + i + 1))),
+          current: temp[i]["temp"]?.round()??1,
+          image: findIcon(temp[i]["weather"][0]["main"].toString(),false),
+          time: Duration(hours: hour + i + 1).toString().split(":")[0] + ":00"
       );
       todayWeather.add(hourly);
     }

@@ -1,5 +1,6 @@
 import 'package:agile_weather_app/lib/datasetB.dart';
 import 'package:agile_weather_app/lib/detailPageB.dart';
+import 'package:agile_weather_app/lib/help_page.dart';
 import 'package:agile_weather_app/lib/homePage.dart';
 import 'package:agile_weather_app/lib/seven_daysB.dart';
 import 'package:flutter/cupertino.dart';
@@ -109,19 +110,19 @@ class _CurrentWeatherStateB extends State<CurrentWeatherB> {
     onSubmitted: (value) async {
     CityModelB temp = await fetchCityB(value);
     if (temp == null) {
-    showDialog(
-    context: context,
-    builder: (BuildContext context) {
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
     return AlertDialog(
-    backgroundColor: Color(0xff030317),
-    title: Text("City not found"),
-    content: Text("Please check the city name"),
-    actions: [
+          backgroundColor: Color(0xff030317),
+          title: Text("City not found"),
+          content: Text("Please check the city name"),
+          actions: [
     TextButton(
-    onPressed: () {
-    Navigator.of(context).pop();
+            onPressed: () {
+            Navigator.of(context).pop();
     },
-    child: Text("Ok"),
+            child: Text("Ok"),
     )
     ],
     );
@@ -199,7 +200,8 @@ class _CurrentWeatherStateB extends State<CurrentWeatherB> {
           ],
         ),
       ],
-    ),
+    )
+      ,
     ),
 
       Container(
@@ -258,6 +260,25 @@ class _CurrentWeatherStateB extends State<CurrentWeatherB> {
       Divider(
         color: Colors.white38,
       ),
+      Align(
+    alignment: Alignment.bottomLeft,
+    child: Padding(
+    padding: EdgeInsets.only(top: 30, left: 20),
+     child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Help()),
+          );
+      },
+        child: Icon(
+          Icons.help_outline,
+          color: Colors.white,
+        ),
+      ),
+    ),
+    ),
 
       Padding(
         padding: EdgeInsets.only(left: 30, right: 30, top: 10),
