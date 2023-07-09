@@ -166,15 +166,30 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                 )
                     : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                   children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>
+                                HomePage(),
+                          ),
+                          );
+                               },
+                  child:
                     Icon(
                         CupertinoIcons.map_pin_ellipse,
                         color: Colors.white),
+
+                      ),
                     Row(
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.pop(context);
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) =>
+                                  HomePageB(),
+                            ),
+                            );
                           },
                           child: Icon(
                             Icons.search,
