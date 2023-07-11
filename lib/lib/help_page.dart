@@ -162,6 +162,14 @@ class Help extends StatelessWidget {
                     ),
                   ),
                   Text(
+                    "abubakar.garba@ue-germany.de",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      height: 1.5,
+                    ),
+                  ),
+                  Text(
                     "bensonmuchoki.nyaga@ue-germany.de",
                     style: TextStyle(
                       fontSize: 16,
@@ -191,6 +199,7 @@ class Help extends StatelessWidget {
                       height: 1.5,
                     ),
                   ),
+
                 ],
               ),
               ),
