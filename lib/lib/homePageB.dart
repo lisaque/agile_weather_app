@@ -2,7 +2,7 @@ import 'package:agile_weather_app/lib/datasetB.dart';
 import 'package:agile_weather_app/lib/detailPageB.dart';
 import 'package:agile_weather_app/lib/help_page.dart';
 import 'package:agile_weather_app/lib/homePage.dart';
-import 'package:agile_weather_app/lib/seven_daysB.dart';
+import 'package:agile_weather_app/lib/hourly_w_widgetB.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';

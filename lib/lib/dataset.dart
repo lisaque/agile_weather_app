@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 
-//initialized variables, using "final", because they are unknown entities and must be changed
 class Weather {
   final int max;
   final int min;

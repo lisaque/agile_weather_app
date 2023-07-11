@@ -57,7 +57,7 @@ class SevenDays extends StatelessWidget {
         itemCount: sevenDay.length,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, bottom: 25),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

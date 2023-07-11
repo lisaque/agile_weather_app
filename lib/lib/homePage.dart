@@ -7,7 +7,7 @@ import 'package:flutter_glow/flutter_glow.dart';
 import 'package:agile_weather_app/lib/dataset.dart';
 import 'package:agile_weather_app/lib/detailPage.dart';
 import 'package:agile_weather_app/lib/extraWeather.dart';
-import 'package:agile_weather_app/lib/seven_days.dart';
+import 'package:agile_weather_app/lib/hourly_w_widget.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,7 +29,6 @@ class _HomePageState extends State<HomePage> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       await Geolocator.openLocationSettings();
@@ -45,13 +44,11 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
+
     return await Geolocator.getCurrentPosition();
   }
 
@@ -101,6 +98,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     getData();
   }
+
 //Loading Screen
   @override
   Widget build(BuildContext context) {

@@ -30,8 +30,6 @@ class WeatherB {
         this.location,
         this.city});
 }
-String appId = "";
-
 
 
 Future<List> fetchDataB(String lat,String lon,String city) async{
