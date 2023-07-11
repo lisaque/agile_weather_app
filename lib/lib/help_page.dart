@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Help extends StatelessWidget {
   @override
@@ -86,7 +87,7 @@ class Help extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "-For any further inquiries please contact the email addresses listed below:",
+                    "-For any further inquiries or feedback, contact us below:",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w300,
@@ -102,17 +103,19 @@ class Help extends StatelessWidget {
                       height: 1.5,
                     ),
                   ),
+                   GestureDetector(
+                    onTap: () {
+                      const url = 'https://nyagajr.github.io/weather_app/contact2.html'; // Replace with your desired web URL
+                      launch(url);
+                    },
+                    child: Icon(
+                      Icons.question_answer,
+                      color: Colors.white,
 
-            Text(
-              "amal.moallahyiddi@ue-germany.de",
-            style: TextStyle(
-            fontSize: 16,
-              fontWeight: FontWeight.w300,
-              height: 1.5,
-            ),
-          ),
+                    ),
+                  ),
                   Text(
-                    "cherry.garcia@ue-germany.de",
+                    "",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w300,
@@ -120,7 +123,31 @@ class Help extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "valeriaebere.oguguo@ue-germany.de",
+                    "",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      height: 1.5,
+                    ),
+                  ),
+                  Text(
+                    "",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      height: 1.5,
+                    ),
+                  ),
+                  Text(
+                    "",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      height: 1.5,
+                    ),
+                  ),
+                  Text(
+                    "",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w300,
@@ -128,64 +155,6 @@ class Help extends StatelessWidget {
                     ),
                   ),
 
-                  Text(
-                    "sadiya.mohammed@ue-germany.de",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                      height: 1.5,
-                    ),
-                  ),
-                  Text(
-                    "lincoln.isaque@ue-germany.de",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                      height: 1.5,
-                    ),
-                  ),
-
-                  Text(
-                    "chinecherem.okolionumazi@ue-germany.de",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                      height: 1.5,
-                    ),
-                  ),
-                  Text(
-                    "abubakar.umar@ue-germany.de",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                      height: 1.5,
-                    ),
-                  ),
-                  Text(
-                    "abubakar.garba@ue-germany.de",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                      height: 1.5,
-                    ),
-                  ),
-                  Text(
-                    "bensonmuchoki.nyaga@ue-germany.de",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                      height: 1.5,
-                    ),
-                  ),
-                  Text(
-                    "dailin.sun@ue-germany.de",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                      height: 1.5,
-                    ),
-                  ),
-                  SizedBox(height: 24),
                   Divider(
                     color: Colors.white60,
                   ),
